@@ -4,23 +4,24 @@
 		<script>
 			// Функция для запроса контакта
 			function getUserPhone() {
-			if (window.WebApp && window.WebApp.requestContact) {
-				window.WebApp.requestContact()
-				.then((data) => {
-					// Пользователь разрешил доступ к номеру
-					console.log("Номер телефона:", data.phone);
-					
-					// Отправляем данные на бэкенд для проверки и сохранения
-					sendContactToBackend(data);
-				})
-				.catch((error) => {
-					// Пользователь отклонил запрос или произошла ошибка
-					console.error("Пользователь отклонил запрос контакта:", error);
-				});
-			} else {
-				console.error("Приложение запущено вне контекста MAX Bridge");
-			}
-			}
+				if (window.WebApp && window.WebApp.requestContact) {
+					window.WebApp.requestContact()
+					.then((data) => {
+						// Пользователь разрешил доступ к номеру
+						console.log("Номер телефона:", data.phone);
+						
+						// Отправляем данные на бэкенд для проверки и сохранения
+						sendContactToBackend(data);
+					})
+					.catch((error) => {
+						// Пользователь отклонил запрос или произошла ошибка
+						console.error("Пользователь отклонил запрос контакта:", error);
+					});
+				} else {
+					console.error("Приложение запущено вне контекста MAX Bridge");
+				}
+			}	// getUserPhone()
+
 			// Отправка полученных данных на ваш сервер
 			async function sendContactToBackend(contactData) {
 				try {
@@ -32,16 +33,18 @@
 						},
 						body: JSON.stringify(contactData)
 					});
-					*/
 					const result = await response.json();
 					if (result.success) {
+					*/
 					alert("Номер телефона успешно подтвержден!");
 					alert(JSON.stringify(contactData));
+					/*
 					}
+					*/
 				} catch (error) {
 					console.error("Ошибка при отправке данных:", error);
 				}
-			}
+			}	// sendContactToBackend(contactData)
 		</script>
 	</head>
 
