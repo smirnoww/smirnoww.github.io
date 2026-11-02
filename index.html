@@ -1,10 +1,55 @@
 <html>
 	<head>
 		<script src="https://st.max.ru/js/max-web-app.js"></script>
+		<script>
+			// Функция для запроса контакта
+			function getUserPhone() {
+			if (window.WebApp && window.WebApp.requestContact) {
+				window.WebApp.requestContact()
+				.then((data) => {
+					// Пользователь разрешил доступ к номеру
+					console.log("Номер телефона:", data.phone);
+					
+					// Отправляем данные на бэкенд для проверки и сохранения
+					sendContactToBackend(data);
+				})
+				.catch((error) => {
+					// Пользователь отклонил запрос или произошла ошибка
+					console.error("Пользователь отклонил запрос контакта:", error);
+				});
+			} else {
+				console.error("Приложение запущено вне контекста MAX Bridge");
+			}
+			}
+			// Отправка полученных данных на ваш сервер
+			async function sendContactToBackend(contactData) {
+				try {
+					/*
+					const response = await fetch('https://your-backend.com', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(contactData)
+					});
+					*/
+					const result = await response.json();
+					if (result.success) {
+					alert("Номер телефона успешно подтвержден!");
+					alert(JSON.stringify(contactData));
+					}
+				} catch (error) {
+					console.error("Ошибка при отправке данных:", error);
+				}
+			}
+		</script>
 	</head>
 
 	<body>
 		<button onclick="alert('hello world!!!');">hello world</button>
-		<button onclick="alert(JSON.stringify(window.WebApp, null, 2));">webApp</button>
+		<button onclick="alert(JSON.stringify(window.WebApp.platform, null, 2));">webApp</button>
+		<button onclick="alert(JSON.stringify(window.WebApp.initDataUnsafe.user.id, null, 2));">user.id</button>
+		<button onclick="getUserPhone();">getUserPhone</button>
+
 	</body>
 </html>
